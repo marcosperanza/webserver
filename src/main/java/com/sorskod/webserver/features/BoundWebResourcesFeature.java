@@ -1,6 +1,7 @@
 package com.sorskod.webserver.features;
 
 import com.google.inject.Injector;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

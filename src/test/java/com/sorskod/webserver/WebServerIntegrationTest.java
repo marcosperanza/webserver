@@ -11,6 +11,7 @@ import com.sorskod.webserver.annotations.DefaultConnector;
 import com.sorskod.webserver.connectors.http.HTTPConnectorModule;
 import com.sorskod.webserver.entities.Error;
 
+import com.sorskod.webserver.module.DefaultFeatureModule;
 import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -60,7 +61,7 @@ public class WebServerIntegrationTest {
 
   @BeforeClass
   public static void initialize() throws Exception {
-    injector = Guice.createInjector(new TestModule(), new WebServerModule());
+    injector = Guice.createInjector(new TestModule(), new WebServerModule(), new DefaultFeatureModule());
 
     client = ClientBuilder.newClient();
     server = injector.getInstance(Server.class);
@@ -69,7 +70,7 @@ public class WebServerIntegrationTest {
 
   @AfterClass
   public static void tearDown() throws Exception {
-    injector.getInstance(Server.class).stop();
+    server.stop();
   }
 
   @Test

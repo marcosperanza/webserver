@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.sorskod.webserver.annotations.DefaultConnector;
 import com.sorskod.webserver.connectors.http.HTTPConnectorModule;
+import com.sorskod.webserver.module.DefaultFeatureModule;
 import org.eclipse.jetty.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -67,7 +68,7 @@ public class BeanParamIntegrationTest {
       Configurator configurator() {
         return () -> 0; // port
       }
-    }, new WebServerModule(), new HTTPConnectorModule());
+    }, new WebServerModule(), new DefaultFeatureModule(), new HTTPConnectorModule());
 
     client = ClientBuilder.newClient();
     server = injector.getInstance(Server.class);

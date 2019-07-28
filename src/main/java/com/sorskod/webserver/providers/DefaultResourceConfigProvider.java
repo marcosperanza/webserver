@@ -6,9 +6,12 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.ws.rs.core.Feature;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -22,17 +25,23 @@ public class DefaultResourceConfigProvider implements Provider<ResourceConfig> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DefaultResourceConfigProvider.class);
 
-  private final Set<Feature> features;
-  private final Set<Class<? extends Feature>> featureClasses;
+  private Set<Feature> features = new HashSet<>();
+  private Set<Class<? extends Feature>> featureClasses = new HashSet<>();
   private final Injector injector;
 
   @Inject
-  public DefaultResourceConfigProvider(Set<Feature> features,
-                                       Set<Class<? extends Feature>> featureClasses,
-                                       Injector injector) {
-    this.features = features;
-    this.featureClasses = featureClasses;
+  public DefaultResourceConfigProvider(Injector injector) {
     this.injector = injector;
+  }
+
+  @com.google.inject.Inject(optional = true)
+  public void setFeatures(Set<Feature> features) {
+    this.features = features;
+  }
+
+  @com.google.inject.Inject(optional = true)
+  public void setFeatureClasses(Set<Class<? extends Feature>> featureClasses) {
+    this.featureClasses = featureClasses;
   }
 
   @Override
