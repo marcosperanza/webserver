@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 import java.util.Collections;
 
 @Singleton
-@Path("")
 
   public class RootResourceImpl implements RootResource {
 

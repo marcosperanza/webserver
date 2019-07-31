@@ -37,7 +37,7 @@ public class WarTestModule extends AbstractModule {
     @Override
     protected void configure() {
         install(new HTTPSConnectorModule());
-        bind(RootResource.class).to(RootResourceImpl.class).asEagerSingleton();
+        bind(RootResource.class).to(RootResourceImpl.class);
 
         MapBinder<String, String> mapbinder
                 = MapBinder.newMapBinder(binder(), String.class, String.class, ContextHandlerInitParams.class);
@@ -73,6 +73,11 @@ public class WarTestModule extends AbstractModule {
             @Override
             public boolean getPersistTempDirectory() {
                 return false;
+            }
+
+            @Override
+            public boolean getParentLoaderPriority() {
+                return true;
             }
         };
     }

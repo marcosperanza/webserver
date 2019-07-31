@@ -16,7 +16,6 @@ import org.eclipse.jetty.server.Server;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.jvnet.hk2.guice.bridge.api.GuiceBridge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,9 +30,9 @@ import java.util.List;
 import java.util.Map;
 
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -86,7 +85,7 @@ public class WebAppWarIntegrationTest {
 
     @Test
     public void checkThatTheResurcesAreBindInTheResourceContextRoot() throws InterruptedException {
-        WebTarget webTarget = client.target(server.getURI().toString());
+            WebTarget webTarget = client.target(server.getURI().toString());
         Invocation.Builder invocationBuilder = webTarget.path("/api")
                 .request(MediaType.APPLICATION_JSON);
 
@@ -106,14 +105,14 @@ public class WebAppWarIntegrationTest {
     @Test
     public void checkResourcesErrorHandler() throws InterruptedException {
         WebTarget webTarget = client.target(server.getURI().toString());
-        Invocation.Builder invocationBuilder = webTarget.path("/api/badrequest-error")
+        Invocation.Builder invocationBuilder = webTarget.path("/api/runtime-error")
                 .request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.get();
 
-        Map<String, Error> entity = response.readEntity(new GenericType<Map<String, Error>>() {});
+        Map<String, String> entity = response.readEntity(new GenericType<Map<String, String>>() {});
 
-        assertThat(response.getStatus(), equalTo(BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), equalTo(INTERNAL_SERVER_ERROR.getStatusCode()));
 
     }
 
